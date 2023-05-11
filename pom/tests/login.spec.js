@@ -1,17 +1,16 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login-page';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import { URLS, CREDENTIALS } from '../data/constants';
 
 test('User muts be logged in successfully', async ({ page }) => {
-  await page.goto(process.env.SAUCEDEMO_URL);
+  await page.goto(URLS.SAUCEDEMO);
 
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(
-    process.env.SAUCEDEMO_USERNAME,
-    process.env.SAUCEDEMO_PASSWORD
+    CREDENTIALS.SAUCEDEMO_USERNAME,
+    CREDENTIALS.SAUCEDEMO_PASSWORD
   );
 
-  await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
+  // await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html'); // expect(page.getByText('Products'));
+  await expect(page.getByText('PRODUCTS')).toBeVisible(); // expect(page.getByText('Products'));
 });
